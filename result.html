@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prediction Result</title>
+</head>
+<body>
+  <h1>Prediction Result</h1>
+  <p><strong>Input Data:</strong></p>
+  <pre>{{ input_data | tojson(indent=2) }}</pre>
+
+  <p><strong>Predicted isDefault:</strong> {{ prediction }}</p>
+  {% if proba is not none %}
+    <p><strong>Default Probability:</strong> {{ (proba*100)|round(2) }}%</p>
+  {% endif %}
+  <a href="/">Back</a>
+</body>
+</html>

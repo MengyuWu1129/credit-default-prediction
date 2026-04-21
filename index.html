@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Default Risk Prediction</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px;}
+    fieldset {margin-bottom: 20px;}
+    label {display: block; margin: 5px 0;}
+  </style>
+</head>
+<body>
+  <h1>Prediction Form</h1>
+  <form action="/predict" method="post">
+    <fieldset>
+      <legend>Numeric Features</legend>
+      {% for col in numeric_cols %}
+        <label>
+          {{ col }}:
+          <input type="number" name="{{ col }}" step="any"
+                 placeholder="mean {{ num_stats[col]['mean']|round(2) }}"
+                 required />
+          <small>range: {{ num_stats[col]['min']|round(2) }} ~ {{ num_stats[col]['max']|round(2) }}</small>
+        </label>
+      {% endfor %}
+    </fieldset>
+
+    <fieldset>
+      <legend>Categorical Features</legend>
+      {% for col in categorical_cols %}
+        <label>
+          {{ col }}:
+          <select name="{{ col }}">
+            {% for v in cat_values[col] %}
+              <option value="{{ v }}">{{ v }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      {% endfor %}
+    </fieldset>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <hr>
+  <h3>JSON API Example</h3>
+  <pre>curl -X POST http://127.0.0.1:5000/api/predict -H "Content-Type: application/json" -d '{"feature1": value, ...}'</pre>
+</body>
+</html>
